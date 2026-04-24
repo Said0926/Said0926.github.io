@@ -199,12 +199,10 @@
       </div>
 
       <div class="animate-on-scroll grid md:grid-cols-5 gap-10 items-center">
-        <!-- Аватар-заглушка -->
+        <!-- Фото -->
         <div class="md:col-span-2 flex justify-center">
-          <div class="w-48 h-48 rounded-2xl bg-slate-800 border border-slate-700 flex flex-col items-center justify-center gap-3">
-            <i class="fa-solid fa-user-tie text-6xl text-indigo-400"></i>
-            <span class="text-slate-400 text-sm font-medium">Said0926</span>
-          </div>
+          <img src="photo.png" alt="Said Saidov"
+            class="w-48 h-48 rounded-2xl object-cover border border-slate-700 shadow-lg">
         </div>
 
         <!-- Текст -->
@@ -786,8 +784,14 @@
     });
 
     // ===== 5. Переключение языка =====
-    // Читаем сохранённый язык из localStorage, по умолчанию русский
-    let currentLang = localStorage.getItem('lang') || 'ru';
+    // Приоритет: 1) ручной выбор из localStorage, 2) язык браузера (ru → ru, всё остальное → en)
+    function detectLang() {
+      const saved = localStorage.getItem('lang');
+      if (saved) return saved;
+      const browserLang = (navigator.language || 'en').toLowerCase();
+      return browserLang.startsWith('ru') ? 'ru' : 'en';
+    }
+    let currentLang = detectLang();
 
     function switchLang(lang) {
       currentLang = lang;
